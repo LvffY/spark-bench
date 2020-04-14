@@ -49,7 +49,7 @@ object HelloString extends WorkloadDefaults {
 
     Keep in mind that the keys in your map have been toLowerCase()'d for consistency.
   */
-  def apply(m: Map[String, Any]) =
+  def apply(m: Map[String, Any]): HelloString =
     new HelloString(input = None, // we don't need to read any input data from disk
       output = None, // we don't have any output data to write to disk in the way that a SQL query would.
       str = getOrDefault[String](m, "str", "Hello, World!")

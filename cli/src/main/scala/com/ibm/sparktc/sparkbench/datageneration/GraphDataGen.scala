@@ -28,7 +28,7 @@ object GraphDataGen extends WorkloadDefaults {
   val name = "graph-data-generator"
   val defaultMu = 4.0
   val defaultSigma = 1.3
-  val defaultSeed = -1L
+  val defaultSeed: Long = -1L
   val defaultNumOfPartitions = 0
 
   override def apply(m: Map[String, Any]): GraphDataGen = {
