@@ -26,7 +26,7 @@ case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTim
 
 object CacheTest extends WorkloadDefaults {
   val name = "cachetest"
-  def apply(m: Map[String, Any]) =
+  def apply(m: Map[String, Any]): CacheTest =
     new CacheTest(input = m.get("input").map(_.asInstanceOf[String]),
       output = m.get("workloadresultsoutputdir").map(_.asInstanceOf[String]),
       sleepMs = getOrDefault[Long](m, "sleepMs", 1000L))

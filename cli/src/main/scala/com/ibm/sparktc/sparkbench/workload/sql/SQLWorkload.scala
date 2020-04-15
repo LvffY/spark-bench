@@ -34,7 +34,7 @@ case class SQLWorkloadResult(
 
 object SQLWorkload extends WorkloadDefaults {
   val name = "sql"
-  def apply(m: Map[String, Any]) =
+  def apply(m: Map[String, Any]): SQLWorkload =
     new SQLWorkload(input = m.get("input").map(_.asInstanceOf[String]),
       output = m.get("output").map(_.asInstanceOf[String]),
       saveMode = getOrDefault[String](m, "save-mode", SaveModes.error),
