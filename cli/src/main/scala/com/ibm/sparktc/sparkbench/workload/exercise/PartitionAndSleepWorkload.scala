@@ -17,19 +17,19 @@
 
 package com.ibm.sparktc.sparkbench.workload.exercise
 
-import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import com.ibm.sparktc.sparkbench.utils.GeneralFunctions._
 import com.ibm.sparktc.sparkbench.utils.SaveModes
+import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types.{LongType, StringType, StructField, StructType}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 object PartitionAndSleepWorkload extends WorkloadDefaults {
   val name = "timedsleep"
   val partitions: Int = 48
   val sleepms: Long = 12000L
 
-  def apply(m: Map[String, Any]) = new PartitionAndSleepWorkload(
+  def apply(m: Map[String, Any]): PartitionAndSleepWorkload = new PartitionAndSleepWorkload(
     input = None,
     output = None,
     partitions = getOrDefault[Int](m, "partitions", partitions),
