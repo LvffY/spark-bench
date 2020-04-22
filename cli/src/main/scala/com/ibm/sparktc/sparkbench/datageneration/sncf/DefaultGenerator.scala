@@ -1,45 +1,11 @@
-package com.ibm.sparktc.sparkbench.datageneration
+package com.ibm.sparktc.sparkbench.datageneration.sncf
 
-import com.ibm.sparktc.sparkbench.utils.GeneralFunctions._
+import com.ibm.sparktc.sparkbench.utils.GeneralFunctions.time
 import com.ibm.sparktc.sparkbench.utils.SparkFuncs.writeToDisk
-import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
+import com.ibm.sparktc.sparkbench.workload.Workload
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
-
-/**
- * This is a case class that represents the columns for the one-row DataFrame that
- * we'll be returning at the end of generating the data.
- */
-case class ExampleGeneratorResult(
-                                   name: String,
-                                   rows: Int,
-                                   cols: Int,
-                                   str: String,
-                                   start_time: Long,
-                                   create_time: Long,
-                                   transform_time: Long,
-                                   save_time: Long,
-                                   total_runtime: Long
-                                 )
-
-/**
- * The ExampleDefaults object unzips the Map[String, Any] passed to it from the
- * config parsing structure. It validates the parameters, substitutes any defaults
- * as necessary, and then creates an instance of the ExampleGenerator case class.
- */
-object ExampleDefaults extends WorkloadDefaults {
-  val DEFAULT_STR = "foo"
-  val name = "example-generator"
-
-  override def apply(m: Map[String, Any]): ExampleGenerator =
-    ExampleGenerator(
-      numRows = getOrThrow(m, "rows").asInstanceOf[Int],
-      numCols = getOrThrow(m, "cols").asInstanceOf[Int],
-      output = Some(getOrThrow(m, "output").asInstanceOf[String]),
-      str = m.getOrElse("str", DEFAULT_STR).asInstanceOf[String]
-    )
-}
 
 /**
  * The ExampleGenerator case class has as constructor arguments every parameter
@@ -54,7 +20,7 @@ object ExampleDefaults extends WorkloadDefaults {
  * but of the BENCHMARK results. The results of the workload itself are written out to
  * the location specified in the output parameter.
  */
-case class ExampleGenerator(
+case class DefaultGenerator(
                              numRows: Int,
                              numCols: Int,
                              input: Option[String] = None,
@@ -100,8 +66,8 @@ case class ExampleGenerator(
     // And now let's use that case class from above to create the one-row dataframe of our benchmark results
     spark.createDataFrame(
       Seq(
-        ExampleGeneratorResult(
-          name = ExampleDefaults.name,
+        DefaultGeneratorResult(
+          name = DefaultDataGenerator.name,
           rows = numRows,
           cols = numCols,
           str = str,

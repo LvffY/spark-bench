@@ -17,8 +17,9 @@
 
 package com.ibm.sparktc.sparkbench.workload
 
+import com.ibm.sparktc.sparkbench.datageneration.GraphDataGen
 import com.ibm.sparktc.sparkbench.datageneration.mlgenerator.{KMeansDataGen, LinearRegressionDataGen}
-import com.ibm.sparktc.sparkbench.datageneration.{ExampleDefaults, GraphDataGen}
+import com.ibm.sparktc.sparkbench.datageneration.sncf.DefaultDataGenerator
 import com.ibm.sparktc.sparkbench.utils.GeneralFunctions.getOrThrowT
 import com.ibm.sparktc.sparkbench.utils.SparkBenchException
 import com.ibm.sparktc.sparkbench.workload.exercise._
@@ -38,7 +39,7 @@ object ConfigCreator {
     KMeansDataGen,
     LinearRegressionDataGen,
     GraphDataGen,
-    ExampleDefaults
+    DefaultDataGenerator
   ).map(wk => wk.name -> wk).toMap
 
   private def loadCustom(name: String): WorkloadDefaults = {

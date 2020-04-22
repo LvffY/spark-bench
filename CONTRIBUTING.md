@@ -25,7 +25,7 @@ Sur votre environnement de tests, vous devez donc avoir (*au moins*) une archite
 │   └── spark-bench.sh
 ├── examples
 │   ├── csv-vs-parquet.conf
-│   ├── exampleGenerator.conf
+│   ├── CSVGenerator.conf
 │   ├── livy-example.conf
 │   ├── local-livy-example.conf
 │   ├── minimal-example.conf
@@ -55,5 +55,11 @@ Il peut être important de faire des tests pour tester la rapidité d'écriture 
 
 Pour exécuter ce code : 
 ```console
-./bin/spark-bench.sh examples/exampleGenerator.conf
+./bin/spark-bench.sh examples/CSVGenerator.conf
+```
+
+Pour concaténer les fichiers générés vous pouvez utiliser une fonction analogue à celle-ci : 
+
+```console
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -input /tmp/spark-bench/data/default-generator/custom/100000000.csv -output /tmp/spark-bench/data/default-generator/custom/100000000_concatenate.csv -mapper cat -reducer cat
 ```
