@@ -17,6 +17,7 @@ object DefaultDataGenerator extends WorkloadDefaults {
       numRows = getOrThrow(m, "rows").asInstanceOf[Int],
       numCols = getOrThrow(m, "cols").asInstanceOf[Int],
       output = Some(getOrThrow(m, "output").asInstanceOf[String]),
-      str = m.getOrElse("str", DEFAULT_STR).asInstanceOf[String]
+      str = m.getOrElse("str", DEFAULT_STR).asInstanceOf[String],
+      writeMode = m.getOrElse("writemode", "overwrite").asInstanceOf[String]
     )
 }

@@ -17,10 +17,10 @@
 
 package com.ibm.sparktc.sparkbench.utils
 
+import com.databricks.spark.avro._
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import com.databricks.spark.avro._
 
 object SparkFuncs {
 
@@ -95,16 +95,16 @@ object SparkFuncs {
     }
   }
 
-  def writeToDisk(outputDir: String, saveMode: String, data: DataFrame, spark: SparkSession, fileFormat: Option[String] = None): Unit = {
+  def writeToDisk(outputDir: String, saveMode: String, data: DataFrame, spark: SparkSession, fileFormat: Option[String] = None, writeOptions: Map[String, String] = Map.empty[String, String]): Unit = {
 
     val format = parseFormat(outputDir, fileFormat)
-
+    val writer = data.write.mode(saveMode).options(writeOptions)
     format match {
-      case Formats.parquet => data.write.mode(saveMode).parquet(outputDir)
-      case Formats.csv => data.write.mode(saveMode).option("header", "true").csv(outputDir)
-      case Formats.orc => data.write.mode(saveMode).orc(outputDir)
-      case Formats.avro => data.write.mode(saveMode).avro(outputDir)
-      case Formats.json => data.write.mode(saveMode).json(outputDir)
+      case Formats.parquet => writer.parquet(outputDir)
+      case Formats.csv => writer.csv(outputDir)
+      case Formats.orc => writer.orc(outputDir)
+      case Formats.avro => writer.avro(outputDir)
+      case Formats.json => writer.json(outputDir)
       case Formats.console => data.show()
       case _ => throw new Exception(s"Unrecognized or unspecified save format: $format. " +
         s"Please check the file extension or add a file format to your arguments: $outputDir")
