@@ -55,7 +55,7 @@ Il peut être important de faire des tests pour tester la rapidité d'écriture 
 
 Pour exécuter ce code : 
 ```console
-./bin/spark-bench.sh examples/CSVGenerator.conf
+./bin/spark-bench.sh examples/10CSVGenerator.conf
 ```
 
 Pour concaténer les fichiers générés vous pouvez utiliser une fonction analogue à celle-ci : 

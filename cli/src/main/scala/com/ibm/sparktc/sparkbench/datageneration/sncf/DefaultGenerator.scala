@@ -27,7 +27,8 @@ case class DefaultGenerator(
                              output: Option[String],
                              str: String,
                              saveMode: String = "overwrite",
-                             writeMode: String = "overwrite"
+                             writeMode: String = "overwrite",
+                             repartitionNumber: Int = 10
                            ) extends Workload {
 
   private def createData(spark: SparkSession) = {
@@ -61,7 +62,7 @@ case class DefaultGenerator(
     val (createTime, rdd) = time(createData(spark))
     val (transformTime, df) = time(createDataFrame(rdd, spark))
     val (saveTime, _) = time {
-      writeToDisk(output.get, writeMode, df, spark)
+      writeToDisk(output.get, writeMode, df, spark, repartitionNumber = repartitionNumber)
     }
 
     // And now let's use that case class from above to create the one-row dataframe of our benchmark results

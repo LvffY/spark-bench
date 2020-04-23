@@ -95,10 +95,11 @@ object SparkFuncs {
     }
   }
 
-  def writeToDisk(outputDir: String, saveMode: String, data: DataFrame, spark: SparkSession, fileFormat: Option[String] = None, writeOptions: Map[String, String] = Map.empty[String, String]): Unit = {
+  def writeToDisk(outputDir: String, saveMode: String, data: DataFrame, spark: SparkSession, fileFormat: Option[String] = None, writeOptions: Map[String, String] = Map.empty[String, String], repartitionNumber: Int = 10): Unit = {
 
     val format = parseFormat(outputDir, fileFormat)
-    val writer = data.write.mode(saveMode).options(writeOptions)
+    spark.sparkContext.hadoopConfiguration.set("mapreduce.fileoutputcommitter.marksuccessfuljobs", "false")
+    val writer = data.repartition(repartitionNumber).write.mode(saveMode).options(writeOptions)
     format match {
       case Formats.parquet => writer.parquet(outputDir)
       case Formats.csv => writer.csv(outputDir)
