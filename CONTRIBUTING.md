@@ -49,17 +49,50 @@ Pour exécuter ce code :
 ./bin/spark-bench.sh examples/sparkpi.conf
 ```
 
-### Ecriture de données
+### Génération de données
 
-Il peut être important de faire des tests pour tester la rapidité d'écriture de données avec Spark.  
+Il peut être important de faire des tests pour tester la rapidité d'écriture de données avec Spark.
+
+#### CSV
+
+##### 1 Fichier
+
+Nous voulons tester l'écriture de données lorsque vous forçons Spark à n'écrire qu'un fichier en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/1CSVGenerator.conf
+```
+
+***N.B :*** *Dans le cas particulier de la génération de 1To de données, Spark avec 1 partition a des problèmes. Donc ce que nous faisons c'est générér 10 fichiers de 100Go. Il ne reste plus qu'à les concaténer par :*
+
+```console
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input /tmp/spark-bench/data/default-generator/1file/big/100Go.csv -output /tmp/spark-bench/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
+```
+
+##### 10 Fichiers
+
+Nous voulons tester l'écriture de données lorsque vous forçons Spark à n'écrire qu'un fichier en sortie
 
 Pour exécuter ce code : 
 ```console
 ./bin/spark-bench.sh examples/10CSVGenerator.conf
 ```
 
-Pour concaténer les fichiers générés vous pouvez utiliser une fonction analogue à celle-ci : 
+##### 100 Fichiers
 
+Nous voulons tester l'écriture de données lorsque vous forçons Spark à n'écrire qu'un fichier en sortie
+
+Pour exécuter ce code : 
 ```console
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -input /tmp/spark-bench/data/default-generator/custom/100000000.csv -output /tmp/spark-bench/data/default-generator/custom/100000000_concatenate.csv -mapper cat -reducer cat
+./bin/spark-bench.sh examples/100CSVGenerator.conf
+```
+
+##### 1000 Fichiers
+
+Nous voulons tester l'écriture de données lorsque vous forçons Spark à n'écrire qu'un fichier en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/1000CSVGenerator.conf
 ```
