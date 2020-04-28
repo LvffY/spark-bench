@@ -17,38 +17,53 @@
 
 package com.ibm.sparktc.sparkbench.workload.exercise
 
-import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
 import com.ibm.sparktc.sparkbench.utils.GeneralFunctions._
 import com.ibm.sparktc.sparkbench.utils.SaveModes
+import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.storage.StorageLevel
 
-case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTime2: Long, runTime3: Long)
+case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTime2: Long, runTime3: Long, cacheTime: Long)
 
 object CacheTest extends WorkloadDefaults {
   val name = "cachetest"
+
+  def getCacheType(cacheString: String): StorageLevel = {
+    cacheString match {
+      case "DISK" => StorageLevel.DISK_ONLY
+      case "RAM" => StorageLevel.MEMORY_ONLY
+      case _ => StorageLevel.NONE
+    }
+  }
+
   def apply(m: Map[String, Any]): CacheTest =
     new CacheTest(input = m.get("input").map(_.asInstanceOf[String]),
       output = m.get("workloadresultsoutputdir").map(_.asInstanceOf[String]),
-      sleepMs = getOrDefault[Long](m, "sleepMs", 1000L))
+      sleepMs = getOrDefault[Long](m, "sleepMs", 1000L),
+      cacheType = getCacheType(getOrDefault[String](m, "cacheType", "None")))
 }
 
 case class CacheTest(input: Option[String],
                      output: Option[String],
                      saveMode: String = SaveModes.error,
-                     sleepMs: Long) extends Workload {
+                     sleepMs: Long,
+                     cacheType: StorageLevel) extends Workload {
 
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
     import spark.implicits._
 
-    val cached = df.getOrElse(Seq.empty[(Int)].toDF).cache
+    val read = df.getOrElse(Seq.empty[(Int)].toDF)
 
-    val (resultTime1, _) = time(cached.count)
-    Thread.sleep(sleepMs)
-    val (resultTime2, _) = time(cached.count)
-    Thread.sleep(sleepMs)
-    val (resultTime3, _) = time(cached.count)
+    val (resultTime1, _) = time(read.count)
+
+    read.persist(cacheType)
+
+    val (resultTime2, _) = time(read.count)
+
+
+    val (resultTime3, _) = time(read.count)
 
     val now = System.currentTimeMillis()
-    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3)))
+    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, Math.abs(resultTime2 - resultTime1))))
   }
 }
