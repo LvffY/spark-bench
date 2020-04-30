@@ -40,26 +40,33 @@ object CacheTest extends WorkloadDefaults {
     new CacheTest(input = m.get("input").map(_.asInstanceOf[String]),
       output = m.get("workloadresultsoutputdir").map(_.asInstanceOf[String]),
       sleepMs = getOrDefault[Long](m, "sleepMs", 1000L),
-      cacheType = getCacheType(getOrDefault[String](m, "cacheType", "None")))
+      //cacheType = getCacheType(getOrDefault[String](m, "cacheType", "None"))
+      cacheType = getOrDefault[String](m, "cacheType", "None"))
 }
 
 case class CacheTest(input: Option[String],
                      output: Option[String],
                      saveMode: String = SaveModes.error,
                      sleepMs: Long,
-                     cacheType: StorageLevel) extends Workload {
+                     cacheType: String) extends Workload {
 
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
     import spark.implicits._
 
-    val read = df.getOrElse(Seq.empty[(Int)].toDF)
+    val read = spark.read.format("csv")
+      .option("sep", ",")
+      .load(input.get)
 
     val (resultTime1, _) = time(read.count)
 
-    read.persist(cacheType)
+    if (cacheType == "DISK") {
+      read.persist(StorageLevel.DISK_ONLY)
+    }
+    else if (cacheType == "RAM"){
+      read.persist(StorageLevel.MEMORY_ONLY)
+    }
 
     val (resultTime2, _) = time(read.count)
-
 
     val (resultTime3, _) = time(read.count)
 
