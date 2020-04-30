@@ -62,11 +62,11 @@ case class CacheTest(input: Option[String],
 
     val (resultTime1, _) = time(readDF.count)
 
-    readDF = cacheDF(readDF)
+    val cachedDF = cacheDF(readDF)
 
-    val (resultTime2, _) = time(readDF.count)
+    val (resultTime2, _) = time(cachedDF.count)
 
-    val (resultTime3, _) = time(readDF.count)
+    val (resultTime3, _) = time(cachedDF.count)
 
     val now = System.currentTimeMillis()
     spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime1))))
