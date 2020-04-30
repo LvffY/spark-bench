@@ -23,7 +23,7 @@ import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.storage.StorageLevel
 
-case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTime2: Long, runTime3: Long, cacheTime: Long)
+case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTime2: Long, runTime3: Long, cacheTime: Long, cacheType: String)
 
 object CacheTest extends WorkloadDefaults {
   val name = "cachetest"
@@ -32,7 +32,7 @@ object CacheTest extends WorkloadDefaults {
     new CacheTest(input = m.get("input").map(_.asInstanceOf[String]),
       output = m.get("workloadresultsoutputdir").map(_.asInstanceOf[String]),
       sleepMs = getOrDefault[Long](m, "sleepMs", 1000L),
-      cacheType = getOrDefault[String](m, "cacheType", "None"))
+      cacheType = getOrDefault[String](m, "cache-type", "None"))
 }
 
 case class CacheTest(input: Option[String],
@@ -41,12 +41,19 @@ case class CacheTest(input: Option[String],
                      sleepMs: Long,
                      cacheType: String) extends Workload {
 
-  private def cacheDF(df: DataFrame, cacheString: String): DataFrame = {
-    cacheString match {
-      case "DISK" => df.persist(StorageLevel.DISK_ONLY)
-      case "RAM" => df.persist(StorageLevel.MEMORY_ONLY)
-      case _ => df
+  private def dependingForCacheType[T](whenDiskOperation: T, whenRamOperation: T, otherCacheOperation: T): T =
+    cacheType match {
+      case "DISK" => whenDiskOperation
+      case "RAM" => whenRamOperation
+      case _ => otherCacheOperation
     }
+
+  private def cacheDF(df: DataFrame): DataFrame =
+    dependingForCacheType(df.persist(StorageLevel.DISK_ONLY), df.persist(StorageLevel.MEMORY_ONLY), df)
+
+  private def cacheTime(t1: Long, t2: Long): Long = {
+    val duration = Math.abs(t2 - t1)
+    dependingForCacheType(duration, duration, 0)
   }
 
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
@@ -55,13 +62,13 @@ case class CacheTest(input: Option[String],
 
     val (resultTime1, _) = time(readDF.count)
 
-    cacheDF(readDF, cacheType)
+    cacheDF(readDF)
 
     val (resultTime2, _) = time(readDF.count)
 
     val (resultTime3, _) = time(readDF.count)
 
     val now = System.currentTimeMillis()
-    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, Math.abs(resultTime2 - resultTime1))))
+    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime1), cacheType)))
   }
 }

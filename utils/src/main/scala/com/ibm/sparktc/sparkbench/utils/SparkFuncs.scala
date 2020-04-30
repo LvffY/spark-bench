@@ -24,10 +24,10 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object SparkFuncs {
 
-  private def parseFormat(outputDir: String, fileFormat: Option[String]): String = (outputDir, fileFormat) match {
+  def parseFormat(outputDir: String, fileFormat: Option[String]): String = (outputDir, fileFormat) match {
     case (Formats.console, None) => Formats.console
-    case (_, None)         => outputDir.split('.').last
-    case (_, Some(s))      => s
+    case (_, None) => outputDir.split('.').last
+    case (_, Some(s)) => s
   }
 
   def verifyOutput(outputDir: Option[String], saveMode: String, spark: SparkSession, fileFormat: Option[String] = None): Unit = {
