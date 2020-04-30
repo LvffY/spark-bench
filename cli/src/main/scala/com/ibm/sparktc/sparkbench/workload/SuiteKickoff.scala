@@ -18,8 +18,8 @@
 package com.ibm.sparktc.sparkbench.workload
 
 import com.ibm.sparktc.sparkbench.utils.SparkFuncs._
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.functions.{col, lit}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 import scala.collection.parallel.ForkJoinTaskSupport
 
@@ -85,7 +85,12 @@ object SuiteKickoff {
     val plusSparkConf = addConfToResults(singleDF, strSparkConfs)
     val plusDescription = addConfToResults(plusSparkConf, Map("description" -> s.description)).coalesce(1)
     // And write to disk. We're done with this suite!
-    if(s.benchmarkOutput.nonEmpty) writeToDisk(s.benchmarkOutput.get, s.saveMode, plusDescription, spark)
+    if (s.benchmarkOutput.nonEmpty) {
+      var writeOptions = Map.empty[String, String]
+      if (s.saveMode.toLowerCase == "csv")
+        writeOptions = Map("header" -> "true")
+      writeToDisk(s.benchmarkOutput.get, s.saveMode, plusDescription, spark, writeOptions = writeOptions)
+    }
   }
 
   private def runParallel(workloadConfigs: Seq[Workload], spark: SparkSession): Seq[DataFrame] = {
