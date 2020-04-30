@@ -23,7 +23,7 @@ import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.storage.StorageLevel
 
-case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTime2: Long, runTime3: Long, cacheTime: Long, cacheType: String)
+case class CacheTestResult(name: String, timestamp: Long, dfcount1: Long, cachecount: Long, dfcount3: Long, cacheTime: Long)
 
 object CacheTest extends WorkloadDefaults {
   val name = "cachetest"
@@ -58,17 +58,17 @@ case class CacheTest(input: Option[String],
 
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
 
-    val readDF = spark.read.csv(input.get)
+    var readDF = spark.read.csv(input.get)
 
     val (resultTime1, _) = time(readDF.count)
 
-    cacheDF(readDF)
+    readDF = cacheDF(readDF)
 
     val (resultTime2, _) = time(readDF.count)
 
     val (resultTime3, _) = time(readDF.count)
 
     val now = System.currentTimeMillis()
-    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime1), cacheType)))
+    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime1))))
   }
 }
