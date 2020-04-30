@@ -28,19 +28,10 @@ case class CacheTestResult(name: String, timestamp: Long, runTime1: Long, runTim
 object CacheTest extends WorkloadDefaults {
   val name = "cachetest"
 
-  def getCacheType(cacheString: String): StorageLevel = {
-    cacheString match {
-      case "DISK" => StorageLevel.DISK_ONLY
-      case "RAM" => StorageLevel.MEMORY_ONLY
-      case _ => StorageLevel.NONE
-    }
-  }
-
   def apply(m: Map[String, Any]): CacheTest =
     new CacheTest(input = m.get("input").map(_.asInstanceOf[String]),
       output = m.get("workloadresultsoutputdir").map(_.asInstanceOf[String]),
       sleepMs = getOrDefault[Long](m, "sleepMs", 1000L),
-      //cacheType = getCacheType(getOrDefault[String](m, "cacheType", "None"))
       cacheType = getOrDefault[String](m, "cacheType", "None"))
 }
 
@@ -50,25 +41,25 @@ case class CacheTest(input: Option[String],
                      sleepMs: Long,
                      cacheType: String) extends Workload {
 
+  private def cacheDF(df: DataFrame, cacheString: String): DataFrame = {
+    cacheString match {
+      case "DISK" => df.persist(StorageLevel.DISK_ONLY)
+      case "RAM" => df.persist(StorageLevel.MEMORY_ONLY)
+      case _ => df
+    }
+  }
+
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
-    import spark.implicits._
 
-    val read = spark.read.format("csv")
-      .option("sep", ",")
-      .load(input.get)
+    val readDF = spark.read.csv(input.get)
 
-    val (resultTime1, _) = time(read.count)
+    val (resultTime1, _) = time(readDF.count)
 
-    if (cacheType == "DISK") {
-      read.persist(StorageLevel.DISK_ONLY)
-    }
-    else if (cacheType == "RAM"){
-      read.persist(StorageLevel.MEMORY_ONLY)
-    }
+    cacheDF(readDF, cacheType)
 
-    val (resultTime2, _) = time(read.count)
+    val (resultTime2, _) = time(readDF.count)
 
-    val (resultTime3, _) = time(read.count)
+    val (resultTime3, _) = time(readDF.count)
 
     val now = System.currentTimeMillis()
     spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, Math.abs(resultTime2 - resultTime1))))
