@@ -67,7 +67,7 @@ Pour exécuter ce code :
 ***N.B :*** *Dans le cas particulier de la génération de 1To de données, Spark avec 1 partition a des problèmes. Donc ce que nous faisons c'est générér 10 fichiers de 100Go. Il ne reste plus qu'à les concaténer par :*
 
 ```console
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input /tmp/spark-bench/data/default-generator/1file/big/100Go.csv -output /tmp/spark-bench/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/1file/big/100Go.csv -output wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
 ```
 
 ##### 10 Fichiers
