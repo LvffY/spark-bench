@@ -23,6 +23,7 @@ import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.storage.StorageLevel
 
+// dfcount1 : count sans cache, cachecount : count avec cache, dfcount3 : deuxième count avec cache
 case class CacheTestResult(name: String, timestamp: Long, dfcount1: Long, cachecount: Long, dfcount3: Long, cacheTime: Long)
 
 object CacheTest extends WorkloadDefaults {
