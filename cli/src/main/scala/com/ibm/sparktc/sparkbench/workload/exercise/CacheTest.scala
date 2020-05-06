@@ -59,7 +59,7 @@ case class CacheTest(input: Option[String],
 
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
 
-    var readDF = spark.read.csv(input.get)
+    val readDF = spark.read.csv(input.get)
 
     val (resultTime1, _) = time(readDF.count)
 
@@ -70,6 +70,7 @@ case class CacheTest(input: Option[String],
     val (resultTime3, _) = time(cachedDF.count)
 
     val now = System.currentTimeMillis()
+    println(s"End for CacheTest on ${input.get} with cache $cacheType")
     spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime1))))
   }
 }
