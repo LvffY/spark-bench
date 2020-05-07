@@ -50,7 +50,7 @@ case class CacheTest(input: Option[String],
     }
 
   private def cacheDF(df: DataFrame): DataFrame =
-    dependingForCacheType(df.persist(StorageLevel.DISK_ONLY), df.persist(StorageLevel.MEMORY_ONLY), df)
+    dependingForCacheType(df.persist(StorageLevel.DISK_ONLY), df.persist(StorageLevel.MEMORY_ONLY), df.unpersist())
 
   private def cacheTime(t1: Long, t2: Long): Long = {
     val duration = Math.abs(t2 - t1)
@@ -59,7 +59,7 @@ case class CacheTest(input: Option[String],
 
   def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
 
-    val readDF = spark.read.csv(input.get)
+    val readDF = spark.read.csv(input.get).unpersist()
 
     val (resultTime1, _) = time(readDF.count)
 
