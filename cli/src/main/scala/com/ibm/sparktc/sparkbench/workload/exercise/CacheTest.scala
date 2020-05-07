@@ -71,6 +71,6 @@ case class CacheTest(input: Option[String],
 
     val now = System.currentTimeMillis()
     println(s"End for CacheTest on ${input.get} with cache $cacheType")
-    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime1))))
+    spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime3))))
   }
 }
