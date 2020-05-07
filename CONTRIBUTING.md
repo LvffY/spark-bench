@@ -161,7 +161,7 @@ Voici les commandes permettant de lancer les workload des readers avec une spark
 
 Nous voulons tester la lecture de données sur un unique fichier.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/1CSVReader.conf
@@ -170,25 +170,25 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 ```console
 ./bin/spark-bench.sh examples/SNCF/1CSVReader.conf 2>1cvsreader.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 Vérification des sorties de lecture des 10ko, 1Mo sur 1 fichier avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/1file/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1file/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 1 fichier avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/1file/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1file/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go sur 1 fichier avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/1file/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1file/csv/big/data.csv
 ```
 
 ###### 10 fichiers
 
 Nous voulons tester la lecture de données sur 10 fichiers uniquement.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/10CSVReader.conf
@@ -197,25 +197,25 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 ```console
 ./bin/spark-bench.sh examples/SNCF/10CSVReader.conf 2>10cvsreader.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 Vérification des sorties de lecture des 10ko, 1Mo sur 10 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/10files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/10files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 10 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/10files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/10files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 10 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/10files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/10files/csv/big/data.csv
 ```
 
 ###### 100 fichiers
 
 Nous voulons tester la lecture de données sur 100 fichiers uniquement.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/100CSVReader.conf
@@ -224,26 +224,26 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 ```console
 ./bin/spark-bench.sh examples/SNCF/100CSVReader.conf 2>100cvsreader.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 100 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/100files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/100files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 100 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/100files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/100files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/100files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/100files/csv/big/data.csv
 ```
 
 ###### 1000 fichiers
 
 Nous voulons tester la lecture de données sur 1000 fichiers uniquement.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/1000CSVReader.conf
@@ -252,19 +252,19 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 ```console
 ./bin/spark-bench.sh examples/SNCF/1000CSVReader.conf 2>1000cvsreader.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 100 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/1000files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1000files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 100 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/1000files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1000files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/output/default-reader/1000files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1000files/csv/big/data.csv
 ```
 
 # Lancement des readers modifiés
@@ -275,7 +275,7 @@ Voici les commandes permettant de lancer les workload des readers avec une spark
 
 Nous voulons tester la lecture de données sur un unique fichier.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/1CSVReaderSeparate.conf
@@ -284,26 +284,26 @@ Lancement avec les logs générés par l'exécution en cours uniquement
 ```console
 ./bin/spark-bench.sh examples/SNCF/1CSVReaderSeparate.conf 2>1cvsreaderseparate.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 1 fichier avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/1file/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1file/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 1 fichier avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/1file/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1file/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go sur 1 fichier avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/1file/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1file/csv/big/data.csv
 ```
 
 ###### 10 fichiers
 
 Nous voulons tester la lecture de données sur 10 fichiers uniquement.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/10CSVReaderSeparate.conf
@@ -312,26 +312,26 @@ Lancement avec les logs générés par l'exécution en cours uniquement
 ```console
 ./bin/spark-bench.sh examples/SNCF/10CSVReaderSeparate.conf 2>10cvsreaderseparate.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 10 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/10files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/10files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 10 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/10files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/10files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 10 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/10files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/10files/csv/big/data.csv
 ```
 
 ###### 100 fichiers
 
 Nous voulons tester la lecture de données sur 100 fichiers uniquement.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/100CSVReaderSeparate.conf
@@ -340,26 +340,26 @@ Lancement avec les logs générés par l'exécution en cours uniquement
 ```console
 ./bin/spark-bench.sh examples/SNCF/100CSVReaderSeparate.conf 2>100cvsreaderseparate.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 100 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/100files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/100files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 100 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/100files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/100files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/100files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/100files/csv/big/data.csv
 ```
 
 ###### 1000 fichiers
 
 Nous voulons tester la lecture de données sur 1000 fichiers uniquement.
 
-####### Lancement
+###### Lancement
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/1000CSVReaderSeparate.conf
@@ -368,17 +368,17 @@ Lancement avec les logs générés par l'exécution en cours uniquement
 ```console
 ./bin/spark-bench.sh examples/SNCF/1000CSVReaderSeparate.conf 2>1000cvsreaderseparate.txt
 ```
-####### Vérification des sorties
+###### Vérification des sorties
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 100 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/1000files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 100 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/1000files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/output/default-reader/1000files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/big/data.csv
 ```
