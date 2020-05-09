@@ -17,6 +17,9 @@
 
 package com.ibm.sparktc.sparkbench.workload.exercise
 
+import java.text.SimpleDateFormat
+import java.util.{Calendar, Date}
+
 import com.ibm.sparktc.sparkbench.utils.GeneralFunctions._
 import com.ibm.sparktc.sparkbench.utils.SaveModes
 import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
@@ -57,8 +60,12 @@ case class CacheTest(input: Option[String],
     dependingForCacheType(duration, duration, 0)
   }
 
-  def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
+  private def getTime(dt: Date): String = {
+    val fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    fmt.format(dt)
+  }
 
+  def doWorkload(df: Option[DataFrame], spark: SparkSession): DataFrame = {
     val readDF = spark.read.csv(input.get)
 
     val (resultTime1, _) = time(readDF.count)
@@ -70,7 +77,9 @@ case class CacheTest(input: Option[String],
     val (resultTime3, _) = time(cachedDF.count)
 
     val now = System.currentTimeMillis()
-    println(s"End for CacheTest on ${input.get} with cache $cacheType")
+
+    val end = getTime(Calendar.getInstance().getTime)
+    println(s"$end - CacheTest on ${input.get} with cache $cacheType")
     spark.createDataFrame(Seq(CacheTestResult("cachetest", now, resultTime1, resultTime2, resultTime3, cacheTime(resultTime2, resultTime3))))
   }
 }

@@ -1,5 +1,8 @@
 package com.ibm.sparktc.sparkbench.datageneration.sncf
 
+import java.text.SimpleDateFormat
+import java.util.{Calendar, Date}
+
 import com.ibm.sparktc.sparkbench.utils.GeneralFunctions.time
 import com.ibm.sparktc.sparkbench.utils.SparkFuncs.writeToDisk
 import com.ibm.sparktc.sparkbench.workload.Workload
@@ -53,6 +56,11 @@ case class DefaultGenerator(
     spark.createDataFrame(rowRDD, schema)
   }
 
+  private def getTime(dt: Date): String = {
+    val fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    fmt.format(dt)
+  }
+
   /**
    * This is where we're doing the actual work of the workload
    */
@@ -65,6 +73,8 @@ case class DefaultGenerator(
       writeToDisk(output.get, writeMode, df, spark, repartitionNumber = repartitionNumber)
     }
 
+    val end = getTime(Calendar.getInstance().getTime)
+    println(s"$end - DataGenerator in ${output.get}")
     // And now let's use that case class from above to create the one-row dataframe of our benchmark results
     spark.createDataFrame(
       Seq(
