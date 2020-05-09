@@ -87,7 +87,7 @@ Pour exécuter ce code :
 ***N.B :*** *Dans le cas particulier de la génération de 1To de données, Spark avec 1 partition a des problèmes. Donc ce que nous faisons c'est générér 10 fichiers de 100Go. Il ne reste plus qu'à les concaténer par :*
 
 ```console
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/1file/big/100Go.csv -output wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1file/big/100Go.csv -output wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
 ```
 
 ##### 10 Fichiers
@@ -132,25 +132,25 @@ Il est important de vérifier avant de lancer les tests de lecture que les tests
 ###### 1 fichier
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/1file/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1file/big
 ```
 
 ###### 10 fichiers
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/10files/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/10files/big
 ```
 
 ###### 100 fichiers
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/100files/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/100files/big
 ```
 
 ###### 1000 fichiers
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/tmp/spark-bench/data/default-generator/1000files/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1000files/big
 ```
 
 # Lancement des readers normaux
