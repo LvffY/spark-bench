@@ -3,7 +3,7 @@ set -eu
 
 execdate=$(date +'%Y%m%d%H%M%S')
 
-for file in $(find ./examples/SNCF -type f -name *.conf); do
+for file in $(find ./examples/SNCF -type f -name *.conf | sort); do
   exec=$(find . -name spark-bench.sh)
   chmod +x $exec
   echo "$exec $file"
