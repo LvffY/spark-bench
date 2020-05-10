@@ -87,7 +87,7 @@ Pour exécuter ce code :
 ***N.B :*** *Dans le cas particulier de la génération de 1To de données, Spark avec 1 partition a des problèmes. Donc ce que nous faisons c'est générér 10 fichiers de 100Go. Il ne reste plus qu'à les concaténer par :*
 
 ```console
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1file/big/100Go.csv -output wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1file/big/100Go.csv -output wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
 ```
 
 ##### 10 Fichiers
@@ -132,25 +132,25 @@ Il est important de vérifier avant de lancer les tests de lecture que les tests
 ###### 1 fichier
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1file/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1file/big
 ```
 
 ###### 10 fichiers
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/10files/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/10files/big
 ```
 
 ###### 100 fichiers
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/100files/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/100files/big
 ```
 
 ###### 1000 fichiers
 
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/data/default-generator/1000files/big
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1000files/big
 ```
 
 # Lancement des readers normaux
@@ -173,15 +173,15 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 ###### Vérification des sorties
 Vérification des sorties de lecture des 10ko, 1Mo sur 1 fichier avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1file/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1file/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 1 fichier avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1file/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1file/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go sur 1 fichier avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1file/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1file/csv/big/data.csv
 ```
 
 ###### 10 fichiers
@@ -200,15 +200,15 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 ###### Vérification des sorties
 Vérification des sorties de lecture des 10ko, 1Mo sur 10 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/10files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/10files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 10 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/10files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/10files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 10 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/10files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/10files/csv/big/data.csv
 ```
 
 ###### 100 fichiers
@@ -228,15 +228,15 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 100 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/100files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/100files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 100 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/100files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/100files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/100files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/100files/csv/big/data.csv
 ```
 
 ###### 1000 fichiers
@@ -256,15 +256,15 @@ Lancement avec les logs générés par l'exécution en cours uniquement.
 
 Vérification des sorties de lecture des 10ko, 1Mo sur 100 fichiers avec les configurations par defaut.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1000files/csv/default/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/default/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go sur 100 fichiers avec les configurations moyennes.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1000files/csv/custom/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/custom/data.csv
 ```
 Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fichiers avec les configurations big.
 ```console
-hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.0/output/default-reader/1000files/csv/big/data.csv
+hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/big/data.csv
 ```
 
 # Lancement des readers modifiés
