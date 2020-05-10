@@ -17,6 +17,9 @@
 
 package com.ibm.sparktc.sparkbench.workload.exercise
 
+import java.text.SimpleDateFormat
+import java.util.{Calendar, Date}
+
 import com.ibm.sparktc.sparkbench.utils.GeneralFunctions.{getOrDefault, time}
 import com.ibm.sparktc.sparkbench.utils.SaveModes
 import com.ibm.sparktc.sparkbench.workload.{Workload, WorkloadDefaults}
@@ -60,9 +63,17 @@ case class SparkPi(input: Option[String] = None,
     piApproximate
   }
 
+  private def getTime(dt: Date): String = {
+    val fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    fmt.format(dt)
+  }
+
   override def doWorkload(df: Option[DataFrame] = None, spark: SparkSession): DataFrame = {
     val timestamp = System.currentTimeMillis()
     val (t, pi) = time(sparkPi(spark))
+
+    val end = getTime(Calendar.getInstance().getTime)
+    println(s"$end - SparkPi with $slices slices")
     spark.createDataFrame(Seq(SparkPiResult("sparkpi", timestamp, t, pi)))
   }
 
