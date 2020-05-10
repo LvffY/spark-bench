@@ -47,10 +47,10 @@ trait Workload {
   def run(spark: SparkSession): DataFrame = {
 
     verifyOutput(output, saveMode, spark)
-    if(saveMode == SaveModes.append){
-      throw SparkBenchException("Save-mode \"append\" not available for workload results. " +
-        "Please use \"errorifexists\", \"ignore\", or \"overwrite\" instead.")
-    }
+    //if(saveMode == SaveModes.append){
+    //  throw SparkBenchException("Save-mode \"append\" not available for workload results. " +
+    //    "Please use \"errorifexists\", \"ignore\", or \"overwrite\" instead.")
+    //}
 
     val df = input.map { in =>
       val rawDF = load(spark, in)
