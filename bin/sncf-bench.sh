@@ -3,10 +3,10 @@ set -eu
 
 execdate=$(date +'%Y%m%d%H%M%S')
 
-for file in $(find ./examples/SNCF -type f -name *.conf | sort); do
+for file in $(find ./examples/SNCF -type f -name *Generator.conf -o -name *Separate.conf | sort); do
   exec=$(find . -name spark-bench.sh)
   chmod +x $exec
-  echo "$exec $file"
+  echo "Execute $exec $file"
   $exec $file 2>"spark-bench-$(basename $file .conf)-$execdate-spark.log"
 done
 
