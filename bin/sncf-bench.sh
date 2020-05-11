@@ -20,7 +20,7 @@ set -eu
 function executeSparkBench() {
   local filePattern=$1
   local execDate=$2
-  local confDirectory=${3:-'./exemples/SNCF'}
+  local confDirectory=${3:-'./examples/SNCF'}
 
   for file in $(find $confDirectory -type f -name $filePattern | sort); do
     exec=$(find . -name spark-bench.sh)
