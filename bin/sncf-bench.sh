@@ -11,5 +11,5 @@ for file in $(find ./examples/SNCF -type f -name *.conf | sort); do
 done
 
 hdfs dfs -mkdir -p /tmp/spark-bench/logs/$execdate
-hdfs dfs -put -f spark-bench-*-$execdate-spark.log /tmp/spark-bench/logs/$execdate/
-rm -rf spark-bench-*-spark.log
+hdfs dfs -put -f *.log /tmp/spark-bench/logs/$execdate/
+rm -rf *.log
