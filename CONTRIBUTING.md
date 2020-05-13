@@ -19,36 +19,55 @@ Une fois [votre code compilé](#compilation) afin d'exécuter les workloads souh
 
 Sur votre environnement de tests, vous devez donc avoir (*au moins*) une architecture similaire à :
 ```console
-.
-├── bin
-│   ├── sncf-bench.sh
-│   ├── spark-bench-env.sh.template
-│   └── spark-bench.sh
-├── examples
-│   ├── csv-vs-parquet.conf
-│   ├── exampleGenerator.conf
-│   ├── livy-example.conf
-│   ├── local-livy-example.conf
-│   ├── minimal-example.conf
-│   ├── no-output-example.conf
-│   └── SNCF
-│       ├── 1000CSVGenerator.conf
-│       ├── 1000CSVReader.conf
-│       ├── 100CSVGenerator.conf
-│       ├── 100CSVReader.conf
-│       ├── 10CSVGenerator.conf
-│       ├── 10CSVReader.conf
-│       ├── 1CSVGenerator.conf
-│       ├── 1CSVReader.conf
-│       ├── 1CSVReaderSeparate.conf
-│       └── sparkpi.conf
-├── target
-│   └── assembly
-│       ├── spark-bench-2.3.0_0.4.0-RELEASE.jar
-│       └── spark-bench-launch-2.3.0_0.4.0-RELEASE.jar
+bin
+├── sncf-bench.sh
+├── spark-bench-env.sh.template
+└── spark-bench.sh
+target
+└── assembly
+    ├── spark-bench-2.3.0_0.4.0-RELEASE.jar
+    └── spark-bench-launch-2.3.0_0.4.0-RELEASE.jar
+examples
+└── SNCF
+    ├── ADL
+    │   ├── 1000CSVGenerator.conf
+    │   ├── 1000CSVReader.conf
+    │   ├── 100CSVGenerator.conf
+    │   ├── 100CSVReader.conf
+    │   ├── 10CSVGenerator.conf
+    │   ├── 10CSVReader.conf
+    │   ├── 1CSVGenerator.conf
+    │   └── 1CSVReader.conf
+    ├── sparkpi.conf
+    └── WASB
+        ├── 1000CSVGenerator.conf
+        ├── 1000CSVReader.conf
+        ├── 100CSVGenerator.conf
+        ├── 100CSVReader.conf
+        ├── 10CSVGenerator.conf
+        ├── 10CSVReader.conf
+        ├── 1CSVGenerator.conf
+        └── 1CSVReader.conf
 ```
 
 ## Exécution des tests
+
+### Releases
+
+Toutes les releases sont disponibles sous le dossier [dist](dist). Pour utiliser les commandes ci-dessous vous devez d'abord dézipper la release souhaitée : 
+
+En fonction de votre environnement, il faut changer les infos suivantes : 
+
+- Le blob storage à utiliser pour les résultats ainsi que les tests de lecture/écriture : 
+```console
+sed -i 's/spark-bench@allstoragesv2.blob.core.windows.net/blobName@storageAccountName.blob.core.windows.net/' examples/SNCF/*.conf examples/SNCF/*/*.conf
+```
+
+
+- Le datalake à utiliser pour les test de lecture/écriture : 
+```console
+sed -i 's/cdcbigdataall.azuredatalakestore.net/dataLakeName.azuredatalakestore.net/' examples/SNCF/*.conf examples/SNCF/*/*.conf
+```
 
 ### Tous les tests
 
@@ -75,46 +94,80 @@ Il peut être important de faire des tests pour tester la rapidité d'écriture 
 
 #### CSV
 
-##### 1 Fichier
+##### Ecriture sur un blob storage 
 
-Nous voulons tester l'écriture de données lorsque vous forçons Spark à n'écrire qu'un fichier en sortie
+###### 1 Fichier
 
-Pour exécuter ce code : 
-```console
-./bin/spark-bench.sh examples/SNCF/1CSVGenerator.conf
-```
-
-***N.B :*** *Dans le cas particulier de la génération de 1To de données, Spark avec 1 partition a des problèmes. Donc ce que nous faisons c'est générér 10 fichiers de 100Go. Il ne reste plus qu'à les concaténer par :*
-
-```console
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -Dmapred.reduce.tasks=1 -Dmapreduce.reduce.memomry.mb=5072 -input wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1file/big/100Go.csv -output wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1file/big/100000000_concatenate.csv -mapper cat -reducer cat
-```
-
-##### 10 Fichiers
-
-Nous voulons tester l'écriture de données lorsque vous forçons Spark à écrire 10 fichiers en sortie
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à n'écrire qu'un fichier en sortie
 
 Pour exécuter ce code : 
 ```console
-./bin/spark-bench.sh examples/SNCF/10CSVGenerator.conf
+./bin/spark-bench.sh examples/SNCF/WASB/1CSVGenerator.conf
 ```
 
-##### 100 Fichiers
+###### 10 Fichiers
 
-Nous voulons tester l'écriture de données lorsque vous forçons Spark à écrire 100 fichiers en sortie
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à écrire 10 fichiers en sortie
 
 Pour exécuter ce code : 
 ```console
-./bin/spark-bench.sh examples/SNCF/100CSVGenerator.conf
+./bin/spark-bench.sh examples/SNCF/WASB/10CSVGenerator.conf
 ```
 
-##### 1000 Fichiers
+###### 100 Fichiers
 
-Nous voulons tester l'écriture de données lorsque vous forçons Spark à écrire 1000 fichiers en sortie
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à écrire 100 fichiers en sortie
 
 Pour exécuter ce code : 
 ```console
-./bin/spark-bench.sh examples/SNCF/1000CSVGenerator.conf
+./bin/spark-bench.sh examples/SNCF/WASB/100CSVGenerator.conf
+```
+
+###### 1000 Fichiers
+
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à écrire 1000 fichiers en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/SNCF/WASB/1000CSVGenerator.conf
+```
+
+##### Ecriture sur un data lake
+
+###### 1 Fichier
+
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à n'écrire qu'un fichier en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/SNCF/ADL/1CSVGenerator.conf
+```
+
+###### 10 Fichiers
+
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à écrire 10 fichiers en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/SNCF/ADL/10CSVGenerator.conf
+```
+
+###### 100 Fichiers
+
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à écrire 100 fichiers en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/SNCF/ADL/100CSVGenerator.conf
+```
+
+###### 1000 Fichiers
+
+Nous voulons tester l'écriture de données lorsque nous forçons Spark à écrire 1000 fichiers en sortie
+
+Pour exécuter ce code : 
+```console
+./bin/spark-bench.sh examples/SNCF/ADL/1000CSVGenerator.conf
 ```
 
 ### Lecture de fichier
@@ -153,7 +206,7 @@ hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench
 hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/data/default-generator/1000files/big
 ```
 
-# Lancement des readers normaux
+##### Lecture depuis un blob storage
 
 Voici les commandes permettant de lancer les workload des readers avec une spark session par niveau de configuration.
 
@@ -162,6 +215,7 @@ Voici les commandes permettant de lancer les workload des readers avec une spark
 Nous voulons tester la lecture de données sur un unique fichier.
 
 ###### Lancement
+
 Lancement avec logs spark affichés sur la console
 ```console
 ./bin/spark-bench.sh examples/SNCF/1CSVReader.conf
@@ -382,3 +436,5 @@ Vérification des sorties de lecture des 10ko, 1Mo, 1Go, 100Go, 1To sur 100 fich
 ```console
 hdfs dfs -ls wasbs://spark-bench@allstoragesv2.blob.core.windows.net/spark-bench/v1.1/output/default-reader/1000files/csv/big/data.csv
 ```
+
+######
